@@ -1,16 +1,17 @@
 #include "tictactoewidget.h"
 
+#include <QDebug>
 #include <QGridLayout>
 #include <QSignalMapper>
-#include <QDebug>
 
 TicTacToeWidget::TicTacToeWidget(QWidget *parent) : QWidget(parent)
 {
     m_currentPlayer = Player::Invalid;
+
     QGridLayout *gridLayout = new QGridLayout(this);
 
-    for(int row = 0; row < 3; ++row) {
-        for(int column = 0; column < 3; ++column) {
+    for (int row = 0; row < 3; ++row) {
+        for (int column = 0; column < 3; ++column) {
             QPushButton *button = new QPushButton(" ");
             gridLayout->addWidget(button, row, column);
             m_board.append(button);
@@ -24,10 +25,7 @@ TicTacToeWidget::TicTacToeWidget(QWidget *parent) : QWidget(parent)
     }
 }
 
-TicTacToeWidget::~TicTacToeWidget()
-{
-
-}
+TicTacToeWidget::~TicTacToeWidget() {}
 
 TicTacToeWidget::Player TicTacToeWidget::currentPlayer() const
 {
@@ -36,7 +34,7 @@ TicTacToeWidget::Player TicTacToeWidget::currentPlayer() const
 
 void TicTacToeWidget::setCurrentPlayer(Player p)
 {
-    if (m_currentPlayer ==p) {
+    if (m_currentPlayer == p) {
         return;
     }
     m_currentPlayer = p;
@@ -52,27 +50,30 @@ void TicTacToeWidget::handleButtonClick(int index)
         return; // out of bounds
     }
     QPushButton *button = m_board[index];
-    if(button->text() != " ") return; // invalid move
+    if (button->text() != " ")
+        return; // invalid move
     button->setText(currentPlayer() == Player::Player1 ? "X" : "O");
     Player winner = checkWinCondition();
     if (winner == Player::Invalid) {
-        setCurrentPlayer(currentPlayer() ==
-            Player::Player1 ? Player::Player2 : Player::Player1);
+        setCurrentPlayer(currentPlayer() == Player::Player1 ? Player::Player2 : Player::Player1);
         return;
     } else {
         emit gameOver(winner);
     }
 }
 
-void TicTacToeWidget::initNewGame() {
-    for (QPushButton *button: m_board) {
+void TicTacToeWidget::initNewGame()
+{
+    for (QPushButton *button : m_board) {
         button->setText(" ");
     }
     setCurrentPlayer(Player::Player1);
 }
 
-TicTacToeWidget::Player TicTacToeWidget::checkWinConditionForLine(
-        int index1, int index2, int index3) const {
+TicTacToeWidget::Player TicTacToeWidget::checkWinConditionForLine(int index1,
+                                                                  int index2,
+                                                                  int index3) const
+{
     QString text1 = m_board[index1]->text();
     if (text1 == " ") {
         return Player::Invalid;
@@ -89,19 +90,15 @@ TicTacToeWidget::Player TicTacToeWidget::checkWinCondition() const
 {
     Player result = Player::Invalid;
     // check horizontals
-    for(int row = 0; row < 3; ++row) {
-        result = checkWinConditionForLine(row * 3,
-                                          row * 3 + 1,
-                                          row * 3 + 2);
+    for (int row = 0; row < 3; ++row) {
+        result = checkWinConditionForLine(row * 3, row * 3 + 1, row * 3 + 2);
         if (result != Player::Invalid) {
             return result;
         }
     }
     // check verticals
-    for(int column = 0; column < 3; ++column) {
-         result = checkWinConditionForLine(column,
-                                           3 + column,
-                                           6 + column);
+    for (int column = 0; column < 3; ++column) {
+        result = checkWinConditionForLine(column, 3 + column, 6 + column);
         if (result != Player::Invalid) {
             return result;
         }
@@ -116,33 +113,10 @@ TicTacToeWidget::Player TicTacToeWidget::checkWinCondition() const
         return result;
     }
     // check if there are unoccupied fields left
-    for(QPushButton *button: m_board) {
-        if(button->text() == " ") {
+    for (QPushButton *button : m_board) {
+        if (button->text() == " ") {
             return Player::Invalid;
         }
     }
     return Player::Draw;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
