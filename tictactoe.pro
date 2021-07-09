@@ -10,10 +10,12 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    tictactoewidget.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    tictactoewidget.h
 
 FORMS += \
     mainwindow.ui
