@@ -9,15 +9,18 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    configurationdialog.cpp \
     main.cpp \
     mainwindow.cpp \
     tictactoewidget.cpp
 
 HEADERS += \
+    configurationdialog.h \
     mainwindow.h \
     tictactoewidget.h
 
 FORMS += \
+    configurationdialog.ui \
     mainwindow.ui
 
 # Default rules for deployment.

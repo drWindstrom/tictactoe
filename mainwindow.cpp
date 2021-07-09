@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "configurationdialog.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include <QFont>
@@ -24,8 +25,13 @@ MainWindow::~MainWindow()
 void MainWindow::startNewGame()
 {
     qDebug() << "Starting new game...";
-    ui->player1Name->setText(tr("Alice"));
-    ui->player2Name->setText(tr("Bob"));
+    // Get player names
+    ConfigurationDialog dialog(this);
+    if (dialog.exec() == QDialog::Rejected) {
+        return;
+    }
+    ui->player1Name->setText(dialog.player1Name());
+    ui->player2Name->setText(dialog.player2Name());
     ui->gameBoard->initNewGame();
 }
 
