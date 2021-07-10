@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "configurationdialog.h"
 #include "ui_mainwindow.h"
+#include <QAction>
 #include <QDebug>
 #include <QFont>
 #include <QMessageBox>
@@ -9,12 +10,13 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    connect(ui->startNewGame, &QPushButton::clicked, this, &MainWindow::startNewGame);
+    connect(ui->startNewGame, &QAction::triggered, this, &MainWindow::startNewGame);
     connect(ui->gameBoard,
             &TicTacToeWidget::currentPlayerChanged,
             this,
             &MainWindow::updateNameLabels);
     connect(ui->gameBoard, &TicTacToeWidget::gameOver, this, &MainWindow::handleGameOver);
+    connect(ui->quit, &QAction::triggered, qApp, &QApplication::quit);
 }
 
 MainWindow::~MainWindow()

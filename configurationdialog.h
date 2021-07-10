@@ -20,6 +20,9 @@ public:
     QString player2Name() const;
     void setPlayer2Name(const QString &p2Name);
 
+private slots:
+    void updateOKButtonState();
+
 private:
     Ui::ConfigurationDialog *ui;
 };
